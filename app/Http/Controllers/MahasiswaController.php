@@ -41,4 +41,29 @@ class MahasiswaController extends Controller
 
         return response()->json(['message' => 'Deleted']);
     }
+
+    public function saveDescriptor(Request $req, $id)
+    {
+        $mhs = Mahasiswa::findOrFail($id);
+
+        $mhs->descriptor = json_encode($req->descriptor);
+        $mhs->save();
+
+        return ['status' => 'saved'];
+    }
+
+    public function getFaces()
+{
+    $faces = Mahasiswa::select('id', 'npm', 'nama', 'foto')
+        ->get()
+        ->map(function ($item) {
+            // Full asset URL for face-api.js
+            $item->foto = asset('storage/mahasiswa/' . $item->foto);
+            return $item;
+        });
+
+    return response()->json($faces);
+}
+
+
 }

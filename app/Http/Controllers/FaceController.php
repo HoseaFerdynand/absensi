@@ -45,4 +45,47 @@ class FaceController extends Controller
             'distance' => $bestDistance
         ];
     }
+
+    public function references()
+{
+    $students = Mahasiswa::all();
+
+    $refs = [];
+
+    foreach ($students as $mhs) {
+
+        // must have descriptor + photo
+        if (!$mhs->descriptor || !$mhs->foto) {
+            continue;
+        }
+
+        // decode descriptor
+        $desc = json_decode($mhs->descriptor, true);
+
+        // must be valid 128-d array
+        if (!is_array($desc) || count($desc) !== 128) {
+            continue;
+        }
+
+        // build full image URL
+        $imgUrl = asset('storage/mahasiswa/' . $mhs->foto);
+
+        $refs[] = [
+            'nama' => $mhs->nama,
+            'descriptor' => $desc,
+            'img_url' => $imgUrl,
+        ];
+    }
+
+    return response()->json($refs);
+}
+
+public function identified(Request $request)
+{
+    return response()->json([
+        'status' => 'ok',
+        'name' => $request->name
+    ]);
+}
+
 }

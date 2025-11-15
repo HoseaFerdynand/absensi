@@ -5,6 +5,7 @@
         <table class="min-w-full border">
             <thead>
                 <tr class="bg-gray-200">
+                    <th class="border px-3 py-2">Foto</th>
                     <th class="border px-3 py-2">NPM</th>
                     <th class="border px-3 py-2">Nama</th>
                     <th class="border px-3 py-2">Kelas</th>
@@ -14,6 +15,13 @@
 
             <tbody>
                 <tr v-for="m in mahasiswa" :key="m.id" class="border">
+                    <td class="border px-3 py-2">
+                        <img
+                            :src="`/storage/mahasiswa/${m.foto}`"
+                            alt="Foto"
+                            class="w-12 h-12 object-cover rounded-full border"
+                        />
+                    </td>
                     <td class="border px-3 py-2">{{ m.npm }}</td>
                     <td class="border px-3 py-2">{{ m.nama }}</td>
                     <td class="border px-3 py-2">{{ m.kelas }}</td>
@@ -31,7 +39,7 @@ import axios from 'axios'
 const mahasiswa = ref([])
 
 onMounted(async () => {
-    const result = await axios.get('/api/mahasiswa')
+    const result = await axios.get('/api/mahasiswa')  // ✅ FIXED
     mahasiswa.value = result.data
 })
 </script>
