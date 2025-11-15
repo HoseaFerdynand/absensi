@@ -58,7 +58,7 @@
 
             <div class="main-content flex flex-col min-h-screen">
                 <!--  BEGIN TOP NAVBAR  -->
-                <Header />
+
                 <!--  END TOP NAVBAR  -->
 
                 <!--  BEGIN CONTENT AREA  -->

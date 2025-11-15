@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class MahasiswaController extends Controller
 {
@@ -19,20 +20,42 @@ class MahasiswaController extends Controller
             'nama' => 'required',
             'kelas' => 'required',
             'prodi' => 'required',
-            'foto' => 'nullable|string'
+            'foto' => 'nullable|file|image'
         ]);
+
+        if ($request->hasFile('foto')) {
+            $filename = $request->npm . '.' . $request->foto->extension();
+            $request->foto->storeAs('public/mahasiswa', $filename);
+            $validated['foto'] = $filename;
+        }
 
         return Mahasiswa::create($validated);
     }
+
 
     public function update(Request $request, $id)
     {
         $mhs = Mahasiswa::findOrFail($id);
 
-        $mhs->update($request->all());
+        $validated = $request->validate([
+            'npm' => 'required|unique:mahasiswa,npm,' . $id,
+            'nama' => 'required',
+            'kelas' => 'required',
+            'prodi' => 'required',
+            'foto' => 'nullable|file|image',
+        ]);
+
+        if ($request->hasFile('foto')) {
+            $filename = $request->npm . '.' . $request->foto->extension();
+            $request->foto->storeAs('public/mahasiswa', $filename);
+            $validated['foto'] = $filename;
+        }
+
+        $mhs->update($validated);
 
         return $mhs;
     }
+
 
     public function destroy($id)
     {
@@ -53,17 +76,15 @@ class MahasiswaController extends Controller
     }
 
     public function getFaces()
-{
-    $faces = Mahasiswa::select('id', 'npm', 'nama', 'foto')
-        ->get()
-        ->map(function ($item) {
-            // Full asset URL for face-api.js
-            $item->foto = asset('storage/mahasiswa/' . $item->foto);
-            return $item;
-        });
+    {
+        $faces = Mahasiswa::select('id', 'npm', 'nama', 'foto')
+            ->get()
+            ->map(function ($item) {
+                $item->foto = asset('storage/mahasiswa/' . $item->foto);
+                return $item;
+            });
 
-    return response()->json($faces);
+        return response()->json($faces);
+    }
 }
 
-
-}

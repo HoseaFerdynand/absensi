@@ -17,6 +17,9 @@
     import { useMeta } from '@/composables/use-meta';
 
     const store = useAppStore();
+    store.sidebar = false
+store.navbar = false
+
 
     // meta
     useMeta({ title: 'Sales Admin' });

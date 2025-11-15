@@ -36,6 +36,15 @@ return new class extends Migration
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'npm'   => '23412945',
+                'nama'  => 'Jastyn Yosanli',
+                'kelas' => 'SI-5A',
+                'prodi' => 'Sistem Informasi',
+                'foto'  => '23412945.jpg',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
     }
 

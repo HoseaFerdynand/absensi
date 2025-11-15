@@ -13,14 +13,9 @@ const routes: RouteRecordRaw[] = [
         component: () => import(/* webpackChunkName: "analytics" */ '../views/main.vue'),
     },
     {
-        path: '/finance',
-        name: 'finance',
-        component: () => import(/* webpackChunkName: "finance" */ '../views/finance.vue'),
-    },
-    {
-        path: '/crypto',
-        name: 'crypto',
-        component: () => import(/* webpackChunkName: "crypto" */ '../views/crypto.vue'),
+        path: '/data-mahasiswa',
+        name: 'Data Mahasiswa',
+        component: () => import(/* webpackChunkName: "crypto" */ '../views/data-mahasiswa.vue'),
     },
 
     // apps
